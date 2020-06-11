@@ -6,15 +6,10 @@ const validPassword = require('../lib/passwordUtils').validPassword
 
 
 const VerifyCallback = (username, password, done) => {
-    console.log('verifycallback')
     User.findOne({username: username})
         .then((user) => {
             if (!user) {return done(null, false)}
             const isValid = validPassword(password, user.hash, user.salt)
-            console.log(password)
-            console.log(user.hash)
-            console.log(user.salt)
-            console.log(isValid)
 
             if (isValid) {
                 return done(null, user)

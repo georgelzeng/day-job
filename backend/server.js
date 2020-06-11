@@ -1,11 +1,11 @@
 const express = require('express');
-// const cors = require('cors');
 const mongoose = require('mongoose');
+const connect = require('./mongoose').connect
 const passport = require('passport')
 const session = require('express-session')
 var crypto = require('crypto')
 const routes = require('../routes/routes')
-// let user = require('../config/models/user.model')
+
 
 const MongoStore = require('connect-mongo')(session)
 
@@ -16,15 +16,11 @@ app = express()
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+connect()
+
 const port = process.env.PORT || 5000;
 
-const uri = process.env.ATLAS_URI;
-
-mongoose.connect(uri, {useNewUrlParser : true, useCreateIndex: true, useUnifiedTopology: true}, );
 const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log("MongoDB connection established successfully!")
-})
 
 // Session Setup
 const sessionStore = new MongoStore({ mongooseConnection: connection, collection: 'sessions' });
